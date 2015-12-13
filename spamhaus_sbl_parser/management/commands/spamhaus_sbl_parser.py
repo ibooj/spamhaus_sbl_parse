@@ -88,6 +88,8 @@ class Command(BaseCommand):
                 setattr(obj, key, item[key])
             obj.save()
 
+        sbl_parser_log('added %s sbl items' % len(self.sbl_items))
+
     def handle(self, *args, **options):
         try:
             socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 9050)
