@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-INTERNAL_IPS = (
-     '10.0.2.2',
-)
+# INTERNAL_IPS = (
+#      '10.0.2.2',
+# )
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'bootstrap3',
     'spamhaus_sbl_parser'
 ]
