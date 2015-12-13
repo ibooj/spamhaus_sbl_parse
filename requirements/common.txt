@@ -1,0 +1,7 @@
+django
+pytz
+docutils
+django-bootstrap3
+PySocks
+requests
+leaf

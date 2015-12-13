@@ -1,0 +1,7 @@
+*.py[cod]
+.DS_Store
+Thumbs.db
+.idea
+.vagrant
+/media
+/static

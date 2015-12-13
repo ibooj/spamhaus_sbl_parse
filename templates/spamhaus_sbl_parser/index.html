@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Latest Additions & Removals</h1>
+    <br>
+    <form class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control"  value="{{ q_string }}" placeholder="Query search" name="q">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+        <a href="/" class="btn btn-default">Reset</a>
+    </form>
+    <br><br>
+    {% if object_list %}
+        <table class="table">
+            {% for item in object_list %}
+                <tr>
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td width="30" rowspan="2" style="vertical-align: middle">
+                                    <img alt="" height="37" border="0" width="19"
+                                         src="http://www.spamhaus.org/images/{% if item.status == 'sbl-in' %}sbl-in{% else %}spacer{% endif %}.gif">
+                                </td>
+                                <td width="200">
+                                    {% if item.status == 'sbl-out' %}
+                                        <b>{{ item.ref_name }}</b>
+                                    {% else %}
+                                        <a href="/detail/{{ item.id }}/"><b>{{ item.ref_name }}</b></a>
+                                    {% endif %}
+                                </td>
+                                <td width="180">
+                                    {{ item.network }}
+                                </td>
+                                <td>
+                                    <a href="http://www.spamhaus.org/sbl/listings/unicom-sc"
+                                       target="_blank">{{ item.domen }}</a>
+                                </td>
+                                <td width="30" rowspan="2" style="vertical-align: middle">
+                                    <img alt="" height="37" border="0" width="19"
+                                         src="http://www.spamhaus.org/images/{% if item.status == 'sbl-out' %}sbl-out{% else %}spacer{% endif %}.gif">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="200">{{ item.date }}</td>
+                                <td colspan="2">{{ item.ptext|default:"" }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if paginator.num_pages > 1 %}
+            <nav>
+                <ul class="pager">
+                    {% if page_obj.has_previous %}
+                        <li><a href="/{{ page_obj.previous_page_number }}/">Previous</a></li>
+                    {% endif %}
+                    <li>
+                        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li><a href="/{{ page_obj.next_page_number }}/">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <p>Not found</p>
+    {% endif %}
+{% endblock %}
