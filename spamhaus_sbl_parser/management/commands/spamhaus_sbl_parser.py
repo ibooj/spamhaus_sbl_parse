@@ -70,6 +70,9 @@ class Command(BaseCommand):
             document = leaf.parse(page.text)
             items = document.xpath('body/div/table[2]/tr[3]/td[2]/table')
             if not items:
+                c = document.xpath('body/div/table[2]/tr/td[2]/h1')[0]
+                if c:
+                    raise Exception(c)
                 raise Exception('table items not found')
             for i in items:
                 try:
@@ -90,11 +93,14 @@ class Command(BaseCommand):
 
         sbl_parser_log('added %s sbl items' % len(self.sbl_items))
 
+    def add_arguments(self, parser):
+        parser.add_argument('proxy', nargs='?')
+
     def handle(self, *args, **options):
         try:
-            socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 9050)
-            socket.socket = socks.socksocket
+            if options['proxy'] != 'noproxy':
+                socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 9050)
+                socket.socket = socks.socksocket
             self.get_sbl_items()
-
         except Exception as e:
             raise CommandError(_('Ошибка "%s" ' % e))
